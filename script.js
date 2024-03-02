@@ -17,6 +17,7 @@ let score = 0;
 let totalScore = 0;
 let round = 1;
 
+// Computes a random number between 1 & 6 inclusive
 const rollDice = () => {
      diceValuesArr = [];
 
@@ -38,6 +39,20 @@ const updateStats = () => {
 const updateRadioOption = (optionNode, score) => {
     scoreInputs[optionNode].disabled = false;
     scoreInputs[optionNode].value = score;
+    scoreSpans[optionNode].textContent = `, score = ${score}`;
+};
+
+const getHighestDuplicates = (arr) => {
+ const counts = {  
+
+ };
+ for (let num of arr) {
+    if (num in counts) {
+        counts[num]++;
+    }else {
+        counts[num] = 1;
+    }
+ }
 };
 
 rollDiceBtn.addEventListener('click', () => {
@@ -47,6 +62,8 @@ rollDiceBtn.addEventListener('click', () => {
         rolls++;
         rollDice();
         updateStats();
+
+        
     }
 });
 
