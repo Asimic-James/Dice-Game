@@ -55,7 +55,7 @@ const getHighestDuplicates = (arr) => {
  };
 
  for (let num of arr) {
-    if (counts[num]) {
+    if (counts[num]) {                                                                                                                                                
         counts[num]++;
     }else {
         counts[num] = 1;
@@ -88,19 +88,40 @@ const getHighestDuplicates = (arr) => {
 
 const detectFullHouse = (arr) => {
     const counts = {};
+
     for (const num of arr) {
        counts[num] = counts[num] ? counts[num] + 1 : 1;
     }
+
+    const hasThreeOfAKind = Object.values(counts).includes(3);
+    const hasPair = Object.values(counts).includes(2);
+
+    if (hasThreeOfAKind && hasPair) {
+        updateRadioOption(2, 25);
+    }
+
+    updateRadioOption(5, 0);
 };
 
-const hasThreeOfAKind = Object.values(counts).includes(3);
-const hasPair = Object.values(counts).includes(2);
+const checkForStraights = (arr) => {
+    const sortedNumbersArr = arr.sort((a, b) => a - b);
+    const uniqueNumbersArr = [...new Set(sortedNumbersArr)];
+    const uniqueNumbersStr = uniqueNumbersArr.join("");
 
-if (hasThreeOfAKind && hasPair) {
-    updateRadioOption(2, 25);
-}
+    const smallStraightsArr = ["1234", "2345", "3456"];
+    const largeStraightsArr = ["12345", "23456"];
+
+    if (smallStraightsArr.includes(uniqueNumbersStr)) {
+        updateRadioOption(3, 30);
+    }
+
+    if (largeStraightsArr.includes(uniqueNumbersStr)) {
+        updateRadioOption(4, 40);
+    }
+
     updateRadioOption(5, 0);
-    
+};
+
 const resetRadioOption = () => {
     scoreInputs.forEach((input) => {
         input.disabled = true;
@@ -141,7 +162,8 @@ rollDiceBtn.addEventListener('click', () => {
         rollDice();
         updateStats();
         getHighestDuplicates(diceValuesArr);
-        
+        detectFullHouse(diceValuesArr);
+        checkForStraights(diceValuesArr);
     }
 });
 
